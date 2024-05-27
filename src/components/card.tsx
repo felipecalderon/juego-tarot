@@ -2,14 +2,15 @@
 import React, { useState } from "react"
 import { Card, CardFooter, Image, Button } from "@nextui-org/react"
 import { motion } from "framer-motion"
-
-export default function Carta({
-    name,
-    category,
-}: {
+interface Card {
+    nombre: string
     name: string
+    categoria: string
     category: string
-}) {
+    representa: string[]
+    img: string
+}
+export default function Carta({ carta }: { carta: Card }) {
     const [isFlipped, setIsFlipped] = useState(false)
     const [sizes, _setSizes] = useState({
         h: 250,
@@ -24,7 +25,7 @@ export default function Carta({
             <motion.div
                 className="card shadow-xl"
                 animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.3 }}
                 style={{
                     transformStyle: "preserve-3d",
                     height: sizes.h,
@@ -34,26 +35,28 @@ export default function Carta({
                 <Card
                     isFooterBlurred
                     radius="lg"
-                    className={`card-face h-[${sizes.h}px] w-[${sizes.w}px]`}
+                    style={{ height: sizes.h, width: sizes.w }}
+                    className={`card-face`}
                 >
                     <Image
-                        alt="Celestial pattern"
-                        className={`object-cover h-[${sizes.h}px]`}
+                        alt="Carta reverso"
+                        className={`object-cover h-[300px] w-full`}
                         src="https://static.vecteezy.com/system/resources/previews/004/104/746/original/celestial-tarot-astrological-golden-seamless-pattern-on-dark-background-vector.jpg"
                     />
                 </Card>
                 <Card
                     isFooterBlurred
                     radius="lg"
-                    className={`card-face card-back h-[${sizes.h}px] w-[${sizes.w}px]`}
+                    style={{ height: sizes.h, width: sizes.w }}
+                    className={`card-back`}
                 >
                     <Image
-                        alt="Hero card"
-                        className={`object-cover h-[${sizes.h}px]`}
-                        src="https://nextui.org/images/hero-card.jpeg"
+                        alt="Carta de frente"
+                        className={`object-cover h-[300px]`}
+                        src={`/img/cartas/${carta.img}`}
                     />
                     <CardFooter className="justify-center before:bg-white/10 border-white/20 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10">
-                        <p className="text-xs text-white/80">{name}</p>
+                        <p className="text-xs text-white/80">{carta.name}</p>
                     </CardFooter>
                 </Card>
             </motion.div>
