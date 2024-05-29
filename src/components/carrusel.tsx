@@ -5,10 +5,12 @@ import useCardStore from "@/stores/cardStore"
 import { Button, Pagination } from "@nextui-org/react"
 import { Toaster, toast } from "sonner"
 import { Carta } from "@/lib/interfaces"
+import useMobile from "@/hooks/detectedMobile"
 
 export default function Carrusel({ cards }: { cards: Carta[] }) {
     const [currentPage, setCurrentPage] = useState(1)
     const [shuffledCards, setShuffledCards] = useState<Carta[]>([])
+    const { isMobile } = useMobile()
     const { flippedCards, flipCard, flippedTimes, setFlippedTimes, limit } = useCardStore()
 
     useEffect(() => {
@@ -21,7 +23,7 @@ export default function Carrusel({ cards }: { cards: Carta[] }) {
         setShuffledCards(shuffleArray(cards))
     }, [cards])
 
-    const cardsPerPage = 8
+    const cardsPerPage = !isMobile ? 8 : 6
     const totalPages = Math.ceil(shuffledCards.length / cardsPerPage)
 
     const handleFlip = (cardName: string) => (e: MouseEvent<HTMLDivElement>) => {
@@ -40,12 +42,12 @@ export default function Carrusel({ cards }: { cards: Carta[] }) {
     const filteredCards = getCurrentPageCards()
 
     return (
-        <div className="relative w-full flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
             <Toaster position="bottom-center" />
             <div className="text-center text-white">
                 <h2 className="text-2xl mb-3">Selecciona {limit - flippedTimes} cartas</h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 place-items-center gap-3">
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-8 place-items-center gap-2">
                 {filteredCards.map((card) => (
                     <Card
                         key={card.nombre}
@@ -55,7 +57,7 @@ export default function Carrusel({ cards }: { cards: Carta[] }) {
                     />
                 ))}
             </div>
-            <div className="flex justify-center gap-3 w-full mt-4">
+            <div className="flex justify-center gap-3 mt-6">
                 <Pagination
                     loop
                     color="secondary"

@@ -1,8 +1,9 @@
 "use client"
-import React, { MouseEvent, useState } from "react"
+import React, { MouseEvent, useEffect, useState } from "react"
 import { Card, CardFooter, Image, Button } from "@nextui-org/react"
 import { motion } from "framer-motion"
 import { Carta } from "@/lib/interfaces"
+import useMobile from "@/hooks/detectedMobile"
 
 export default function CartaComponent({
     carta,
@@ -13,11 +14,19 @@ export default function CartaComponent({
     isFlipped?: boolean
     handleFlip?: (e: MouseEvent<HTMLDivElement>) => void
 }) {
-    const [sizes, _setSizes] = useState({
-        h: 220,
-        w: 130,
+    const { isMobile } = useMobile()
+    const [sizes, setSizes] = useState({
+        h: 250,
+        w: 120,
     })
 
+    useEffect(() => {
+        setSizes({
+            h: isMobile ? 150 : 250,
+            w: isMobile ? 100 : 120,
+        })
+    }, [isMobile])
+    console.log({ isMobile, sizes })
     return (
         <div className="card-container" onClick={handleFlip}>
             <motion.div
