@@ -1,47 +1,53 @@
 "use client"
-import { MouseEvent, useState } from "react"
-import Carta from "@/components/card"
+import { MouseEvent, useEffect, useState } from "react"
+import Card from "@/components/card"
 import useCardStore from "@/stores/cardStore"
 import { Button, Pagination } from "@nextui-org/react"
-
-interface Carta {
-    nombre: string
-    name: string
-    categoria: string
-    category: string
-    representa: string[]
-    img: string
-}
+import { Toaster, toast } from "sonner"
+import { Carta } from "@/lib/interfaces"
 
 export default function Carrusel({ cards }: { cards: Carta[] }) {
-    const [currentPage, setCurrentPage] = useState(0)
-    const { flippedCards, flipCard } = useCardStore()
+    const [currentPage, setCurrentPage] = useState(1)
+    const [shuffledCards, setShuffledCards] = useState<Carta[]>([])
+    const { flippedCards, flipCard, flippedTimes, setFlippedTimes, limit } = useCardStore()
+
+    useEffect(() => {
+        const shuffleArray = (array: Carta[]) => {
+            return array
+                .map((a) => ({ sort: Math.random(), value: a }))
+                .sort((a, b) => a.sort - b.sort)
+                .map((a) => a.value)
+        }
+        setShuffledCards(shuffleArray(cards))
+    }, [cards])
 
     const cardsPerPage = 8
-    const totalPages = Math.ceil(cards.length / cardsPerPage)
+    const totalPages = Math.ceil(shuffledCards.length / cardsPerPage)
 
-    const handleFlip = (cardName: string) => (e: MouseEvent<HTMLDivElement>) =>
-        flipCard(cardName)
-
-    const handleNext = () => {
-        setCurrentPage((prevPage) => (prevPage + 1) % totalPages)
-    }
-
-    const handlePrev = () => {
-        setCurrentPage((prevPage) => (prevPage - 1 + totalPages) % totalPages)
+    const handleFlip = (cardName: string) => (e: MouseEvent<HTMLDivElement>) => {
+        if (flippedTimes < limit) {
+            setFlippedTimes()
+            flipCard(cardName)
+        } else {
+            toast(`No puedes voltear más de ${limit} cartas`)
+        }
     }
 
     const getCurrentPageCards = () => {
-        const startIndex = currentPage * cardsPerPage
-        return cards.slice(startIndex, startIndex + cardsPerPage)
+        const startIndex = (currentPage - 1) * cardsPerPage
+        return shuffledCards.slice(startIndex, startIndex + cardsPerPage)
     }
-
     const filteredCards = getCurrentPageCards()
+
     return (
         <div className="relative w-full flex flex-col items-center justify-center">
+            <Toaster position="bottom-center" />
+            <div className="text-center text-white">
+                <h2 className="text-2xl mb-3">Selecciona {limit - flippedTimes} cartas</h2>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 place-items-center gap-3">
                 {filteredCards.map((card) => (
-                    <Carta
+                    <Card
                         key={card.nombre}
                         carta={card}
                         isFlipped={flippedCards.has(card.nombre)}
@@ -50,21 +56,15 @@ export default function Carrusel({ cards }: { cards: Carta[] }) {
                 ))}
             </div>
             <div className="flex justify-center gap-3 w-full mt-4">
-                <Button onClick={handlePrev} color="secondary">
-                    Prev
-                </Button>
                 <Pagination
                     loop
-                    showControls
                     color="secondary"
+                    showControls
                     total={totalPages}
                     onChange={setCurrentPage}
                     page={currentPage}
-                    initialPage={0}
+                    initialPage={1}
                 />
-                <Button onClick={handleNext} color="secondary">
-                    Next
-                </Button>
             </div>
         </div>
     )

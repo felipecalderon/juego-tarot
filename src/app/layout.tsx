@@ -16,7 +16,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="es">
-            <body className={inter.className}>{children}</body>
+            <body className={inter.className}>
+                <div className="stars z-10"></div>
+                <div className="twinkling z-20"></div>
+                <div className="clouds z-30"></div>
+                <div className="relative z-40">{children}</div>
+            </body>
         </html>
     )
 }

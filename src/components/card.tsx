@@ -2,26 +2,20 @@
 import React, { MouseEvent, useState } from "react"
 import { Card, CardFooter, Image, Button } from "@nextui-org/react"
 import { motion } from "framer-motion"
-interface Card {
-    nombre: string
-    name: string
-    categoria: string
-    category: string
-    representa: string[]
-    img: string
-}
-export default function Carta({
+import { Carta } from "@/lib/interfaces"
+
+export default function CartaComponent({
     carta,
     isFlipped,
     handleFlip,
 }: {
-    carta: Card
-    isFlipped: boolean
-    handleFlip: (e: MouseEvent<HTMLDivElement>) => void
+    carta: Carta
+    isFlipped?: boolean
+    handleFlip?: (e: MouseEvent<HTMLDivElement>) => void
 }) {
     const [sizes, _setSizes] = useState({
-        h: 250,
-        w: 150,
+        h: 220,
+        w: 130,
     })
 
     return (
@@ -62,7 +56,7 @@ export default function Carta({
                 >
                     <Image
                         alt="Carta de frente"
-                        className={`object-cover h-[300px]`}
+                        className={`object-cover scale-110 object-center h-[300px]`}
                         src={`/img/cartas/${carta.img}`}
                     />
                     <CardFooter className="justify-center before:bg-white/10 border-white/20 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small z-10">
