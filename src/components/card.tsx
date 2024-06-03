@@ -17,18 +17,18 @@ export default function CartaComponent({
     const { isMobile } = useMobile()
     const [sizes, setSizes] = useState({
         h: 250,
-        w: 120,
+        w: 140,
     })
 
     useEffect(() => {
         setSizes({
             h: isMobile ? 150 : 250,
-            w: isMobile ? 100 : 120,
+            w: isMobile ? 100 : 140,
         })
     }, [isMobile])
-    console.log({ isMobile, sizes })
+
     return (
-        <div className="card-container" onClick={handleFlip}>
+        <div className="card-container hover:scale-105 transition-all" onClick={handleFlip}>
             <motion.div
                 className="card shadow-xl"
                 animate={{ rotateY: isFlipped ? 180 : 0 }}

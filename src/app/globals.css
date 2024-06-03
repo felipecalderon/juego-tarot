@@ -5,7 +5,7 @@
 body {
     background-color: #000022;
 }
-@keyframes move-twink-back {
+@keyframes desplazar-difuminado {
     from {
         background-position: 0 0;
     }
@@ -13,7 +13,7 @@ body {
         background-position: -10000px 5000px;
     }
 }
-@-webkit-keyframes move-twink-back {
+@-webkit-keyframes desplazar-difuminado {
     from {
         background-position: 0 0;
     }
@@ -21,7 +21,7 @@ body {
         background-position: -10000px 5000px;
     }
 }
-@-moz-keyframes move-twink-back {
+@-moz-keyframes desplazar-difuminado {
     from {
         background-position: 0 0;
     }
@@ -29,7 +29,7 @@ body {
         background-position: -10000px 5000px;
     }
 }
-@-ms-keyframes move-twink-back {
+@-ms-keyframes desplazar-difuminado {
     from {
         background-position: 0 0;
     }
@@ -38,7 +38,7 @@ body {
     }
 }
 
-@keyframes move-clouds-back {
+@keyframes desplazar-nubes {
     from {
         background-position: 0 0;
     }
@@ -46,7 +46,7 @@ body {
         background-position: 10000px 0;
     }
 }
-@-webkit-keyframes move-clouds-back {
+@-webkit-keyframes desplazar-nubes {
     from {
         background-position: 0 0;
     }
@@ -54,7 +54,7 @@ body {
         background-position: 10000px 0;
     }
 }
-@-moz-keyframes move-clouds-back {
+@-moz-keyframes desplazar-nubes {
     from {
         background-position: 0 0;
     }
@@ -62,7 +62,7 @@ body {
         background-position: 10000px 0;
     }
 }
-@-ms-keyframes move-clouds-back {
+@-ms-keyframes desplazar-nubes {
     from {
         background-position: 0;
     }
@@ -71,9 +71,9 @@ body {
     }
 }
 
-.stars,
-.twinkling,
-.clouds {
+.estrellas,
+.difuminado,
+.nubes {
     position: fixed;
     top: 0;
     left: 0;
@@ -84,29 +84,29 @@ body {
     display: block;
 }
 
-.stars {
+.estrellas {
     background: #000 url(/img/estrellas.png) repeat top center;
     background-attachment: fixed;
 }
 
-.twinkling {
-    background: transparent url(/img/sombras.png) repeat top center;
+.difuminado {
+    background: transparent url(/img/circulo.svg) repeat top center;
     background-attachment: fixed;
-    -moz-animation: move-twink-back 200s linear infinite;
-    -ms-animation: move-twink-back 200s linear infinite;
-    -o-animation: move-twink-back 200s linear infinite;
-    -webkit-animation: move-twink-back 200s linear infinite;
-    animation: move-twink-back 200s linear infinite;
+    -moz-animation: desplazar-difuminado 200s linear infinite;
+    -ms-animation: desplazar-difuminado 200s linear infinite;
+    -o-animation: desplazar-difuminado 200s linear infinite;
+    -webkit-animation: desplazar-difuminado 200s linear infinite;
+    animation: desplazar-difuminado 200s linear infinite;
 }
 
-.clouds {
+.nubes {
     background: transparent url(/img/nubes.png) repeat-x top center;
     background-attachment: fixed;
-    -moz-animation: move-clouds-back 200s linear infinite;
-    -ms-animation: move-clouds-back 200s linear infinite;
-    -o-animation: move-clouds-back 200s linear infinite;
-    -webkit-animation: move-clouds-back 200s linear infinite;
-    animation: move-clouds-back 200s linear infinite;
+    -moz-animation: desplazar-nubes 200s linear infinite;
+    -ms-animation: desplazar-nubes 200s linear infinite;
+    -o-animation: desplazar-nubes 200s linear infinite;
+    -webkit-animation: desplazar-nubes 200s linear infinite;
+    animation: desplazar-nubes 200s linear infinite;
 }
 
 /* EFECTO ANIMADO PARA EL FLIP DE LAS CARTAS */

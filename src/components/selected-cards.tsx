@@ -1,9 +1,8 @@
 "use client"
-import { Carta } from "@/lib/interfaces"
 import useCardStore from "@/stores/cardStore"
 import { Card, CardHeader, Image } from "@nextui-org/react"
-
-export default function SelectedCards({ cards }: { cards: Carta[] }) {
+import { cards } from "@/lib/arrCards"
+export default function SelectedCards() {
     const { flippedCards } = useCardStore()
     const selectedCards = cards.filter((card) => flippedCards.has(card.nombre))
 

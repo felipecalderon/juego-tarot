@@ -6,3 +6,10 @@ export interface Carta {
     representa: string[]
     img: string
 }
+
+export interface CartaJugada extends Carta {
+    isReversed: boolean //la carta puede
+}
+export interface Juego {
+    cartas: CartaJugada[] //array de cartas seleccionadas
+}
