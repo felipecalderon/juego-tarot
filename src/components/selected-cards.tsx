@@ -2,10 +2,14 @@
 import useCardStore from "@/stores/cardStore"
 import { Card, CardHeader, Image } from "@nextui-org/react"
 import { cards } from "@/lib/arrCards"
+import { userStore } from "@/stores/userStore"
 export default function SelectedCards() {
     const { flippedCards } = useCardStore()
+    const { name, born, question } = userStore()
+
     const selectedCards = cards.filter((card) => flippedCards.has(card.nombre))
 
+    console.log({ name, born, question })
     if (selectedCards.length > 0)
         return (
             <div>
@@ -24,9 +28,7 @@ export default function SelectedCards() {
                                     src={`/img/cartas/${card.img}`}
                                 />
                                 <div className="flex flex-col">
-                                    <p className="text-small text-default-500">
-                                        Tipo: {card.categoria}
-                                    </p>
+                                    <p className="text-small text-default-500">Tipo: {card.categoria}</p>
                                     <p className="text-md">{card.nombre}</p>
                                 </div>
                             </CardHeader>
