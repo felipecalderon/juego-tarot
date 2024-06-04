@@ -100,7 +100,7 @@ export default function Cuestionario() {
         }
     }, [form, touched])
 
-    const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         if (!isFormValid()) return
 
@@ -111,8 +111,7 @@ export default function Cuestionario() {
             question: form.question,
         }
         setUser(user)
-        console.log("redirigiendo..")
-        router.push("/play")
+        await router.prefetch("/play")
         setLoading(false)
     }
 

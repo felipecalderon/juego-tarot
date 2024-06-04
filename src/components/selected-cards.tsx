@@ -4,13 +4,21 @@ import { Button, Card, CardHeader, Image } from "@nextui-org/react"
 import { cards } from "@/lib/arrCards"
 import { userStore } from "@/stores/userStore"
 import { MdOutlineDoubleArrow } from "react-icons/md"
+import { useRouter } from "next/navigation"
 
 export default function SelectedCards() {
     const { flippedCards, limit } = useCardStore()
     // const { name, born, question } = userStore()
     const completed = flippedCards.size === limit
+    const route = useRouter()
     const selectedCards = cards.filter((card) => flippedCards.has(card.nombre))
+    const handleAnalizar = async () => {
+        if (!completed) return
 
+        const [c1, c2, c3, c4, c5] = Array.from(flippedCards)
+        await route.push(`/${c1}/${c2}`)
+        // console.log(arrCards)
+    }
     if (selectedCards.length > 0)
         return (
             <div className="pb-6">
@@ -39,7 +47,7 @@ export default function SelectedCards() {
                 </div>
                 {completed && (
                     <div className="fixed bottom-6 right-6">
-                        <Button color="secondary" size="lg">
+                        <Button color="secondary" size="lg" onClick={handleAnalizar}>
                             Analizar la tirada <MdOutlineDoubleArrow />
                         </Button>
                     </div>
