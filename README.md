@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Descubre tu Destino - Juego de Tarot
 
-## Getting Started
+Bienvenido al proyecto "Descubre tu Destino", un juego interactivo de tarot que utiliza el mazo Rider-Waite para ofrecerte una experiencia mística y reveladora. Este juego no solo está diseñado para entretenimiento sino también para brindar una introspección profunda a través de las cartas del tarot.
 
-First, run the development server:
+## Características
+
+-   **Lecturas de Tarot Interactivas**: Participa en sesiones de tarot donde podrás escoger las cartas que guiarán tu destino.
+-   **Diseño Responsivo**: Adaptado para funcionar perfectamente en dispositivos móviles y de escritorio.
+-   **Mazo Rider-Waite**: Utiliza uno de los mazos de tarot más reconocidos y efectivos para lecturas detalladas.
+
+## Tecnologías Utilizadas
+
+Este proyecto está construido con las siguientes tecnologías:
+
+-   Next.js
+-   TailwindCSS
+-   @nextui-org/react para componentes de UI
+
+## Instalación
+
+Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 
 ```bash
+# Clona el repositorio
+git clone https://github.com/felipecalderon/juego-tarot.git
+
+# Entra al directorio del proyecto
+cd tu-repositorio
+
+# Instala las dependencias
+npm install
+
+# Ejecuta el servidor de desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
