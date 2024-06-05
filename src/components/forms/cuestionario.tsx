@@ -111,10 +111,12 @@ export default function Cuestionario() {
             question: form.question,
         }
         setUser(user)
-        await router.prefetch("/play")
-        setLoading(false)
+        router.push("/play")
     }
 
+    useEffect(() => {
+        return () => setLoading(false)
+    }, [])
     return (
         <form className="w-full flex flex-col gap-3 items-start">
             <label className="w-full">
@@ -155,7 +157,7 @@ export default function Cuestionario() {
                 </label>
             )}
             <Button color="secondary" disabled={!isFormValid()} isLoading={isLoading} onClick={handleSubmit}>
-                Ver el horóscopo
+                Tirar las cartas
             </Button>
         </form>
     )
