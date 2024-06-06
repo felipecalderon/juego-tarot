@@ -50,11 +50,11 @@ export default function SelectedCards() {
         }
     }
 
-    // useEffect(() => {
-    //     if (!name || !born) {
-    //         route.push("/")
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (!name || !born) {
+            route.push("/")
+        }
+    }, [])
     if (selectedCards.length > 0)
         return (
             <div className="pb-6">
