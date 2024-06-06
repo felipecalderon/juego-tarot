@@ -1,8 +1,5 @@
 {
     "functions": {
-        "lib/*": {
-            "maxDuration": 60
-        },
         "app/**/*": {
             "maxDuration": 60
         }
