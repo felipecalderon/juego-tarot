@@ -60,7 +60,7 @@ export default function SelectedCards() {
     if (selectedCards.length > 0)
         return (
             <div className="pb-6">
-                <Toaster />
+                <Toaster position="top-center" />
                 <div className="text-center text-white">
                     <h2 className="text-lg mb-1">Estas cartas te guiarán en tu consulta</h2>
                     <h4 className="text-2xl mb-3 italic text-yellow-300">¿{consulta}?</h4>

@@ -3,6 +3,8 @@ import SelectedCards from "@/components/selected-cards"
 import { cards } from "@/lib/arrCards"
 import { barajar } from "@/lib/barajarCartas"
 
+export const maxDuration = 60
+
 export default function PlayPage() {
     const cartasBarajadas = barajar(cards)
     return (

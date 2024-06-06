@@ -24,7 +24,7 @@ export default function ScrolledCards({ cards }: { cards: Carta[] }) {
     const nombre = persona.charAt(0).toUpperCase() + persona.toLowerCase().slice(1)
     return (
         <div className="flex flex-col items-center justify-center">
-            <Toaster position="bottom-center" />
+            <Toaster position="top-center" />
             {limit - flippedTimes > 0 && (
                 <div className="text-center text-white">
                     <h2 className="text-2xl mb-3">

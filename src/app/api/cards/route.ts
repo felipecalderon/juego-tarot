@@ -10,8 +10,6 @@ type ReqProps = {
     cards: Carta[]
 }
 
-export const maxDuration = 60
-
 export const GET = async (req: NextRequest) => {
     const cartasBarajadas = barajar(cards)
     return NextResponse.json(cartasBarajadas)
