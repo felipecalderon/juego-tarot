@@ -3,7 +3,7 @@ import { userStore } from "@/stores/userStore"
 import { Button, DatePicker, DateValue, Input, Switch } from "@nextui-org/react"
 import { MouseEvent, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { getLocalTimeZone, parseDate, today } from "@internationalized/date"
+import { getLocalTimeZone, today } from "@internationalized/date"
 
 type FormCuestionario = {
     name: string

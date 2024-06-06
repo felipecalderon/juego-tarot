@@ -3,23 +3,52 @@ import useCardStore from "@/stores/cardStore"
 import { Button, Card, CardHeader, Image } from "@nextui-org/react"
 import { cards } from "@/lib/arrCards"
 import { MdOutlineDoubleArrow } from "react-icons/md"
-import { useRouter } from "next/navigation"
 import { userStore } from "@/stores/userStore"
+import { fetchPost } from "@/lib/fetchPostGame"
+import ModalTarot from "./modal"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function SelectedCards() {
+    const route = useRouter()
+    const [response, setResponse] = useState({
+        open: false,
+        content: "",
+    })
+    const [isLoading, setLoading] = useState(false)
     const { flippedCards, limit } = useCardStore()
-    const { question } = userStore()
+    const { question, name, born } = userStore()
     const consulta = question.replace(/[?¿]/g, "")
     const completed = flippedCards.size === limit
-    const route = useRouter()
     const selectedCards = cards.filter((card) => flippedCards.has(card.nombre))
     const handleAnalizar = async () => {
-        if (!completed) return
-
-        const [c1, c2, c3, c4, c5] = Array.from(flippedCards)
-        route.push(`/resultado/${c1}/${c2}/${c3}/${c4}/${c5}`)
-        // console.log(arrCards)
+        setLoading(true)
+        if (response.content) {
+            setResponse({ ...response, open: true })
+        } else {
+            if (!completed) return
+            const data = {
+                question: question,
+                name: name,
+                born: born,
+                cards: selectedCards,
+            }
+            const { content } = await fetchPost(data)
+            if (content) {
+                setResponse({
+                    open: true,
+                    content: content,
+                })
+            }
+        }
+        setLoading(false)
     }
+
+    useEffect(() => {
+        if (!name || !born) {
+            route.push("/")
+        }
+    }, [])
     if (selectedCards.length > 0)
         return (
             <div className="pb-6">
@@ -48,12 +77,19 @@ export default function SelectedCards() {
                     ))}
                 </div>
                 {completed && (
-                    <div className="fixed bottom-6 right-6">
-                        <Button color="secondary" size="lg" onClick={handleAnalizar}>
+                    <div className="fixed bottom-6 right-6 z-50">
+                        <Button
+                            color="secondary"
+                            isLoading={isLoading}
+                            disabled={isLoading}
+                            size="lg"
+                            onClick={handleAnalizar}
+                        >
                             Analizar la tirada <MdOutlineDoubleArrow />
                         </Button>
                     </div>
                 )}
+                <ModalTarot isOpen={response.open} content={response.content} set={setResponse} />
             </div>
         )
 }

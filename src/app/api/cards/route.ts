@@ -9,7 +9,7 @@ export const GET = async (req: NextRequest) => {
 }
 
 export const POST = async (req: NextRequest) => {
-    const body = await req.json()
+    const { question, name, born, cards } = await req.json()
     const chat = await openai.chat.completions.create({
         model: "gpt-4-turbo",
         messages: [
@@ -21,14 +21,14 @@ export const POST = async (req: NextRequest) => {
             {
                 role: "system",
                 content:
-                    "Al usuario le han salido las cartas: El Colgado, Rey de Oros, Sota de Copas, El Diablo, Cinco de Bastos",
+                    "Vas a guiar al usuario e interpretar las cartas que le salgan en base a la pregunta que tenga.",
             },
             {
                 role: "system",
                 content:
                     "El usuario quiere verse el destino, su consulta es: ¿Resultará exitosa la inversión monetaria mañana?",
             },
-            { role: "user", content: body.content },
+            // { role: "user", content: body.content },
         ],
     })
     const respuesta = chat.choices[0].message
