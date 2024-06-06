@@ -8,6 +8,7 @@ import { fetchPost } from "@/lib/fetchPostGame"
 import ModalTarot from "./modal"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import SingleCardSelected from "./selected.card"
 
 export default function SelectedCards() {
     const route = useRouter()
@@ -22,33 +23,38 @@ export default function SelectedCards() {
     const completed = flippedCards.size === limit
     const selectedCards = cards.filter((card) => flippedCards.has(card.nombre))
     const handleAnalizar = async () => {
-        setLoading(true)
-        if (response.content) {
-            setResponse({ ...response, open: true })
-        } else {
-            if (!completed) return
-            const data = {
-                question: question,
-                name: name,
-                born: born,
-                cards: selectedCards,
+        try {
+            setLoading(true)
+            if (response.content) {
+                setResponse({ ...response, open: true })
+            } else {
+                if (!completed) return
+                const data = {
+                    question: question,
+                    name: name,
+                    born: born,
+                    cards: selectedCards,
+                }
+                const { content } = await fetchPost(data)
+                if (content) {
+                    setResponse({
+                        open: true,
+                        content: content,
+                    })
+                }
             }
-            const { content } = await fetchPost(data)
-            if (content) {
-                setResponse({
-                    open: true,
-                    content: content,
-                })
-            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
         }
-        setLoading(false)
     }
 
-    useEffect(() => {
-        if (!name || !born) {
-            route.push("/")
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (!name || !born) {
+    //         route.push("/")
+    //     }
+    // }, [])
     if (selectedCards.length > 0)
         return (
             <div className="pb-6">
@@ -57,27 +63,12 @@ export default function SelectedCards() {
                     <h4 className="text-2xl mb-3 italic text-yellow-300">¿{consulta}?</h4>
                 </div>
                 <div className="flex flex-row flex-wrap justify-center mx-auto gap-3">
-                    {selectedCards.map((card, i) => (
-                        <Card key={card.name} className="min-w-60">
-                            <CardHeader className="flex flex-row flex-wrap gap-3">
-                                <Image
-                                    alt={card.nombre}
-                                    height={40}
-                                    width={40}
-                                    radius="none"
-                                    src={`/img/cartas/${card.img}`}
-                                />
-                                <div className="flex flex-col">
-                                    <p className="text-small text-default-500">Tipo: {card.categoria}</p>
-                                    <p className="text-md">{card.nombre}</p>
-                                    <p className="text-xs italic">{card.representa.map((rep) => rep + " ")}</p>
-                                </div>
-                            </CardHeader>
-                        </Card>
+                    {selectedCards.map((card) => (
+                        <SingleCardSelected key={card.name} card={card} />
                     ))}
                 </div>
                 {completed && (
-                    <div className="fixed bottom-6 right-6 z-50">
+                    <div className="fixed bottom-6 right-2 md:right-6 z-50">
                         <Button
                             color="secondary"
                             isLoading={isLoading}
@@ -85,7 +76,8 @@ export default function SelectedCards() {
                             size="lg"
                             onClick={handleAnalizar}
                         >
-                            Analizar la tirada <MdOutlineDoubleArrow />
+                            {isLoading ? "Interpretando las cartas.. paciencia" : "Obtener lectura del tarot"}
+                            <MdOutlineDoubleArrow />
                         </Button>
                     </div>
                 )}
