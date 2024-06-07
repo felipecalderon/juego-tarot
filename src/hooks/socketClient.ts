@@ -1,42 +1,27 @@
 "use client"
-import { useEffect, useState } from "react"
-import { socket } from "@/lib/socketIo"
+import { useEffect, useRef, useState } from "react"
+import { Socket, io } from "socket.io-client"
 
-export default function useSocket() {
-    const [isConnected, setIsConnected] = useState(false)
-    const [transport, setTransport] = useState("N/A")
+export default function useSocket(serverUrl: string) {
+    const socketRef = useRef<Socket | null>(null)
 
     useEffect(() => {
-        if (socket.connected) {
-            onConnect()
-        }
+        // Conectar al servidor de Socket.IO
+        socketRef.current = io(serverUrl)
 
-        function onConnect() {
-            setIsConnected(true)
-            setTransport(socket.io.engine.transport.name)
+        // Manejar la conexión
+        socketRef.current.on("connect", () => {
+            console.log("Conectado al backend de Socket.IO")
+        })
 
-            socket.io.engine.on("upgrade", (transport) => {
-                setTransport(transport.name)
-            })
-        }
-
-        function onDisconnect() {
-            setIsConnected(false)
-            setTransport("N/A")
-        }
-
-        socket.on("connect", onConnect)
-        socket.on("disconnect", onDisconnect)
-
+        // Desconectar en cleanup
         return () => {
-            socket.off("connect", onConnect)
-            socket.off("disconnect", onDisconnect)
+            if (socketRef.current) {
+                socketRef.current.disconnect()
+                console.log("Desconectado del back")
+            }
         }
-    }, [])
+    }, [serverUrl])
 
-    return {
-        isConnected,
-        transport,
-        socket,
-    }
+    return { socket: socketRef.current }
 }

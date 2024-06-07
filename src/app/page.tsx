@@ -4,7 +4,7 @@ import { Image } from "@nextui-org/react"
 export default function Home() {
     return (
         <main className="min-h-screen px-6 py-3 md:px-24 md:py-10 flex flex-col gap-6">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-yellow-300 drop-shadow-md text-center">
+            <h1 className="text-3xl md:text-6xl md:mb-4 text-yellow-300 font-bold text-center text-nowrap">
                 Descubre tu Destino
             </h1>
             <div className="flex flex-col md:flex-row gap-3 justify-center z-50">

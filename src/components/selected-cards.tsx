@@ -4,7 +4,6 @@ import { Button, Card, CardHeader, Image } from "@nextui-org/react"
 import { cards } from "@/lib/arrCards"
 import { MdOutlineDoubleArrow } from "react-icons/md"
 import { userStore } from "@/stores/userStore"
-import { fetchPost } from "@/lib/fetchPostGame"
 import ModalTarot from "./modal"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
@@ -18,17 +17,29 @@ export default function SelectedCards() {
         open: false,
         content: "",
     })
-    const { isConnected, socket, transport } = useSocket()
+    const { socket } = useSocket("https://tarot-back-production.up.railway.app")
     const [isLoading, setLoading] = useState(false)
     const { flippedCards, limit } = useCardStore()
     const { question, name, born } = userStore()
     const consulta = question.replace(/[?¿]/g, "")
     const completed = flippedCards.size === limit
     const selectedCards = cards.filter((card) => flippedCards.has(card.nombre))
+    const onResponse = (res: any) => {
+        if (res.content) {
+            const { content } = res
+            setResponse({
+                open: true,
+                content: content,
+            })
+        }
+        setLoading(false)
+    }
+
     const handleAnalizar = async () => {
         setLoading(true)
         if (response.content) {
             setResponse({ ...response, open: true })
+            setLoading(false)
         } else {
             if (!completed) return
             const data = {
@@ -37,27 +48,21 @@ export default function SelectedCards() {
                 born: born,
                 cards: selectedCards,
             }
-            if (isConnected) {
+
+            if (socket && socket.connected) {
                 socket.emit("data", data)
-                socket.on("response", (res) => {
-                    if (res.content) {
-                        const { content } = res
-                        setResponse({
-                            open: true,
-                            content: content,
-                        })
-                    }
-                    setLoading(false)
-                })
+                // socket.emit("test", "oli")
+                socket.on("response", onResponse)
             }
         }
     }
 
-    // useEffect(() => {
-    //     if (!name || !born) {
-    //         route.push("/")
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (!name || !born) {
+            route.push("/")
+        }
+    }, [])
+
     if (selectedCards.length > 0)
         return (
             <div className="pb-6">

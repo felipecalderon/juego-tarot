@@ -1,9 +1,8 @@
+"use client"
 import ScrolledCards from "@/components/scrolled"
 import SelectedCards from "@/components/selected-cards"
 import { cards } from "@/lib/arrCards"
 import { barajar } from "@/lib/barajarCartas"
-
-export const maxDuration = 30
 
 export default function PlayPage() {
     const cartasBarajadas = barajar(cards)
