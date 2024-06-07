@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import SingleCardSelected from "./selected.card"
 import { Toaster, toast } from "sonner"
+import useSocket from "@/hooks/socketClient"
 
 export default function SelectedCards() {
     const route = useRouter()
@@ -17,6 +18,7 @@ export default function SelectedCards() {
         open: false,
         content: "",
     })
+    const { isConnected, socket, transport } = useSocket()
     const [isLoading, setLoading] = useState(false)
     const { flippedCards, limit } = useCardStore()
     const { question, name, born } = userStore()
@@ -24,39 +26,38 @@ export default function SelectedCards() {
     const completed = flippedCards.size === limit
     const selectedCards = cards.filter((card) => flippedCards.has(card.nombre))
     const handleAnalizar = async () => {
-        try {
-            setLoading(true)
-            if (response.content) {
-                setResponse({ ...response, open: true })
-            } else {
-                if (!completed) return
-                const data = {
-                    question: question,
-                    name: name,
-                    born: born,
-                    cards: selectedCards,
-                }
-                const { content } = await fetchPost(data)
-                if (content) {
-                    setResponse({
-                        open: true,
-                        content: content,
-                    })
-                }
+        setLoading(true)
+        if (response.content) {
+            setResponse({ ...response, open: true })
+        } else {
+            if (!completed) return
+            const data = {
+                question: question,
+                name: name,
+                born: born,
+                cards: selectedCards,
             }
-        } catch (error) {
-            console.log(error)
-            toast("Hubo un error, contacte al administrador")
-        } finally {
-            setLoading(false)
+            if (isConnected) {
+                socket.emit("data", data)
+                socket.on("response", (res) => {
+                    if (res.content) {
+                        const { content } = res
+                        setResponse({
+                            open: true,
+                            content: content,
+                        })
+                    }
+                    setLoading(false)
+                })
+            }
         }
     }
 
-    useEffect(() => {
-        if (!name || !born) {
-            route.push("/")
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (!name || !born) {
+    //         route.push("/")
+    //     }
+    // }, [])
     if (selectedCards.length > 0)
         return (
             <div className="pb-6">
