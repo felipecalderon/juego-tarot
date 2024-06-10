@@ -42,6 +42,7 @@ export default function SelectedCards() {
                 socket.on("response", (res: any) => {
                     if (res.content) {
                         setResponse(res.content)
+                        setR(res.content)
                         setOpen(true)
                     }
                     setLoading(false)
