@@ -19,7 +19,8 @@ const defaultForm = {
     needAsk: true,
 }
 export default function Cuestionario() {
-    const { setUser } = userStore()
+    const { setUser, lastPlayed, verifyPlayedToday } = userStore()
+
     const questionInputRef = useRef<HTMLInputElement | null>(null)
     const submitButtonRef = useRef<HTMLButtonElement | null>(null)
     const router = useRouter()
@@ -106,14 +107,16 @@ export default function Cuestionario() {
     const handleSubmit = async (e: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>) => {
         e.preventDefault()
         if (!isFormValid()) return
-
         setLoading(true)
-        const user = {
-            name: form.name,
-            born: form.born,
-            question: form.question,
+        const haJugadoHoy = verifyPlayedToday()
+        if (!haJugadoHoy) {
+            const user = {
+                name: form.name,
+                born: form.born,
+                question: form.question,
+            }
+            setUser(user)
         }
-        setUser(user)
         router.push("/play")
     }
 
@@ -156,9 +159,10 @@ export default function Cuestionario() {
             </label> */}
             {form.needAsk && (
                 <label className="w-full">
+                    <span className="text-white">Concéntrate en tu interior..</span>
                     <Input
                         ref={questionInputRef}
-                        label="Hacer una consulta... ej: Lograré conseguir el empleo?"
+                        label="Hazle una consulta al destino"
                         onBlur={handleInputBlur}
                         autoComplete="off"
                         id="question"
