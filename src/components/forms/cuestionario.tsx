@@ -1,7 +1,7 @@
 "use client"
 import { userStore } from "@/stores/userStore"
 import { Button, DatePicker, DateValue, Input, Switch } from "@nextui-org/react"
-import { MouseEvent, useEffect, useState } from "react"
+import { MouseEvent, TouchEvent, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { getLocalTimeZone, today } from "@internationalized/date"
 
@@ -20,6 +20,8 @@ const defaultForm = {
 }
 export default function Cuestionario() {
     const { setUser } = userStore()
+    const questionInputRef = useRef<HTMLInputElement | null>(null)
+    const submitButtonRef = useRef<HTMLButtonElement | null>(null)
     const router = useRouter()
     const [form, setForm] = useState<FormCuestionario>(defaultForm)
     const [errors, setErrors] = useState({
@@ -33,6 +35,13 @@ export default function Cuestionario() {
         question: false,
     })
     const [isLoading, setLoading] = useState(false)
+
+    const handleInputBlur = () => {
+        // Asegurarse de que el botón está en la vista cuando el input pierde el enfoque
+        if (submitButtonRef.current) {
+            submitButtonRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+        }
+    }
 
     const isFormValid = () => {
         if (form.needAsk) {
@@ -94,13 +103,7 @@ export default function Cuestionario() {
         setErrors(newErrors)
     }
 
-    useEffect(() => {
-        if (touched.name || touched.born || touched.question) {
-            verifyErrors(form)
-        }
-    }, [form, touched])
-
-    const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = async (e: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>) => {
         e.preventDefault()
         if (!isFormValid()) return
 
@@ -115,8 +118,15 @@ export default function Cuestionario() {
     }
 
     useEffect(() => {
+        if (touched.name || touched.born || touched.question) {
+            verifyErrors(form)
+        }
+    }, [form, touched])
+
+    useEffect(() => {
         return () => setLoading(false)
     }, [])
+
     return (
         <form className="w-full flex flex-col gap-3 items-start">
             <label className="w-full">
@@ -140,14 +150,16 @@ export default function Cuestionario() {
                 showMonthAndYearPickers
                 errorMessage="Tu nacimiento importa mucho para una predicción precisa"
             />
-            <label className="w-fit flex items-center">
+            {/* <label className="w-fit flex items-center">
                 <Switch isSelected={form.needAsk} onChange={handleSwitch} color="secondary" />
                 <span className="text-white">Hacer una pregunta</span>
-            </label>
+            </label> */}
             {form.needAsk && (
                 <label className="w-full">
                     <Input
-                        label="Ej: Lograré conseguir el empleo?"
+                        ref={questionInputRef}
+                        label="Hacer una consulta... ej: Lograré conseguir el empleo?"
+                        onBlur={handleInputBlur}
                         autoComplete="off"
                         id="question"
                         onChange={handleInputChange}
@@ -156,7 +168,19 @@ export default function Cuestionario() {
                     />
                 </label>
             )}
-            <Button color="secondary" disabled={!isFormValid()} isLoading={isLoading} onClick={handleSubmit}>
+            <Button
+                ref={submitButtonRef}
+                color="secondary"
+                disabled={!isFormValid()}
+                isLoading={isLoading}
+                onClick={handleSubmit}
+                onTouchEnd={(e) => {
+                    if (document.activeElement instanceof HTMLElement) {
+                        document.activeElement.blur()
+                    }
+                    handleSubmit(e)
+                }}
+            >
                 Tirar las cartas
             </Button>
         </form>
