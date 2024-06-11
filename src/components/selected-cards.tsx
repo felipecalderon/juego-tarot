@@ -39,6 +39,7 @@ export default function SelectedCards() {
             if (socket && socket.connected) {
                 socket.emit("data", data)
                 setPlayed()
+                setPlay(true)
                 socket.on("response", (res: any) => {
                     if (res.content) {
                         setResponse(res.content)
