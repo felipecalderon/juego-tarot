@@ -20,12 +20,12 @@ export default function SelectedCards() {
     const { question, name, born, setPlayed, response, setResponse, loadingStore, verifyPlayedToday } = userStore()
     const [q, setQ] = useState("")
     const [r, setR] = useState("")
+    const [played, setPlay] = useState(false)
     const completed = flippedCards.size === limit
     const selectedCards = cards.filter((card) => flippedCards.has(card.nombre))
-    const [played, setPlay] = useState(false)
     const handleAnalizar = async () => {
         setLoading(true)
-        if (response) {
+        if (response && played) {
             setOpen(true)
             setLoading(false)
         } else {
