@@ -22,7 +22,7 @@ export default function DonationButton() {
         <>
             <div className="p-6 bg-violet-100 rounded-md flex flex-col md:flex-row gap-3 justify-center">
                 <p className="text-sm text-pretty text-center">
-                    Este proyecto es 100% gratis, <strong>mantengámos vivo el espítiru cabalístico </strong>
+                    Este proyecto es 100% gratis, <strong>mantengamos vivo el espítiru cabalístico </strong>
                     con una pequeña donación y así ayudas a mantener vivo este hermoso proyecto.
                     <span className="block text-xs mt-1 italic font-semibold cursor-pointer text-violet-900">
                         <Link href="https://www.linkedin.com/in/felipecalderone/" target="_blank">
