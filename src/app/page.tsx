@@ -1,4 +1,5 @@
 import Cuestionario from "@/components/forms/cuestionario"
+import ModalTarot from "@/components/modal"
 import { Image } from "@nextui-org/react"
 
 export default function Home() {
