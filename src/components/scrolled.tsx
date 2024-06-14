@@ -6,11 +6,13 @@ import { Toaster, toast } from "sonner"
 import { Carta } from "@/lib/interfaces"
 import { userStore } from "@/stores/userStore"
 import { useEffect, useState } from "react"
+import { barajar } from "@/lib/barajarCartas"
 
 export default function ScrolledCards({ cards }: { cards: Carta[] }) {
     const { flippedCards, flipCard, flippedTimes, setFlippedTimes, limit } = useCardStore()
     const { name, loadingStore, verifyPlayedToday } = userStore()
     const [nombre, setNombre] = useState("")
+    const [cartas, setCartas] = useState<Carta[]>([])
 
     const handleFlip = (cardName: string) => {
         const isFlipped = flippedCards.has(cardName)
@@ -23,7 +25,10 @@ export default function ScrolledCards({ cards }: { cards: Carta[] }) {
             toast(`No puedes voltear más de ${limit} cartas.`)
         }
     }
-
+    useEffect(() => {
+        const cartasBarajadas = barajar(cards)
+        setCartas(cartasBarajadas)
+    }, [])
     useEffect(() => {
         if (!loadingStore) {
             const [persona] = name.split(" ")
@@ -31,6 +36,7 @@ export default function ScrolledCards({ cards }: { cards: Carta[] }) {
             setNombre(capitalizado)
         }
     }, [loadingStore])
+
     if (loadingStore) {
         return (
             <div className="text-center text-white">
@@ -51,7 +57,7 @@ export default function ScrolledCards({ cards }: { cards: Carta[] }) {
                 )}
                 <ScrollShadow className="h-[400px]">
                     <div className="flex flex-row flex-wrap gap-3 justify-center">
-                        {cards.map((card) => (
+                        {cartas.map((card) => (
                             <Card
                                 key={card.nombre}
                                 carta={card}
