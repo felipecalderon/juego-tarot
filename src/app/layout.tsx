@@ -1,7 +1,24 @@
-import type { Metadata } from "next"
+import type { Metadata, MetadataRoute } from "next"
 import { Barlow } from "next/font/google"
 import "./globals.css"
 const inter = Barlow({ weight: "400", preload: false })
+
+export function sitemap(): MetadataRoute.Sitemap {
+    return [
+        {
+            url: "https://lecturatarot.vercel.app/",
+            lastModified: new Date(),
+            changeFrequency: "yearly",
+            priority: 1,
+        },
+        {
+            url: "https://lecturatarot.vercel.app/play/",
+            lastModified: new Date(),
+            changeFrequency: "daily",
+            priority: 0.8,
+        },
+    ]
+}
 
 export const metadata: Metadata = {
     title: "Lectura del tarot gratis",
