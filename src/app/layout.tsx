@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Barlow } from "next/font/google"
 import "./globals.css"
+import { GoogleTagManager } from "@next/third-parties/google"
 const inter = Barlow({ weight: "400", preload: false })
 
 export const metadata: Metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({
     return (
         <html lang="es">
             <body className={inter.className}>
+                <GoogleTagManager gtmId="AW-328593452" />
                 {/* Contenedor de fondos animados */}
                 <div className="background-container">
                     <div className="estrellas z-10"></div>
