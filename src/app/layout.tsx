@@ -5,6 +5,9 @@ import { metadata } from "@/lib/metadata"
 
 const inter = Barlow({ weight: "400", preload: false })
 
+metadata
+sitemap()
+
 export default function RootLayout({
     children,
 }: Readonly<{
