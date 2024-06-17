@@ -5,12 +5,12 @@ export default function Home() {
     return (
         <section className="min-h-screen px-6 py-3 md:px-24 md:py-10 flex flex-col gap-6">
             <h1 className="text-3xl md:text-6xl text-yellow-300 font-bold text-center text-nowrap">Lectura del tarot online</h1>
-            <h2 className="text-2xl md:text-3xl md:mb-4 text-white text-center text-nowrap">Descubre tu Destino</h2>
+            <h2 className="text-2xl md:text-3xl text-white text-center text-nowrap">Descubre tu Destino</h2>
+            <h3 className="text-xl md:mb-4 mx-auto w-fit md:text-2xl italic bg-yellow-300/20 rounded-md text-white px-3 py-2">
+                "Las cartas del tarot pueden revelar los misterios ocultos del universo y guiarte en tu camino"
+            </h3>
             <div className="flex flex-col md:flex-row gap-3 justify-center z-50">
                 <div className="w-full md:w-1/2 text-white flex flex-col gap-6 text-pretty text-center md:text-left">
-                    <p className="text-xl md:text-2xl italic">
-                        "Las cartas del tarot pueden revelar los misterios ocultos del universo y guiarte en tu camino"
-                    </p>
                     <p className="text-xl font-semibold text-yellow-200">
                         ¿Te gustaría conocer tu futuro? <br></br>¿Tienes preguntas sin responder?
                     </p>
@@ -31,7 +31,7 @@ export default function Home() {
             <Image
                 src="/img/rueda.png"
                 className="animate-spin-ultraslow fixed pointer-events-none -bottom-72 md:-bottom-96 z-10 right-0"
-                alt="Ruleta de la suerte"
+                alt="Imagen animada de una rueda giratoria, simbolizando la ruleta de la suerte en el juego de tarot"
             />
         </section>
     )

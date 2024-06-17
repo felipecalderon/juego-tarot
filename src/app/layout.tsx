@@ -1,12 +1,11 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Barlow } from "next/font/google"
 import "./globals.css"
-
-const inter = Inter({ subsets: ["latin"] })
+const inter = Barlow({ weight: "400", preload: false })
 
 export const metadata: Metadata = {
     title: "Lectura del tarot gratis",
-    description: "Explora el misterio del tarot y descubre tu destino con la lectura de tarot y la selección única de cartas.",
+    description: "Explora el misterio del tarot y descubre tu destino con la lectura y selección única de cartas.",
     authors: [
         {
             name: "Felipe Calderón",
@@ -19,6 +18,7 @@ export const metadata: Metadata = {
     icons: {
         icon: "/img/rueda.png",
     },
+    manifest: "manifest.json",
 }
 
 export default function RootLayout({
@@ -29,11 +29,13 @@ export default function RootLayout({
     return (
         <html lang="es">
             <body className={inter.className}>
-                {/* Fondos animados por css */}
-                <div className="estrellas z-10"></div>
-                <div className="difuminado z-20"></div>
-                <div className="nubes z-30"></div>
-                <div className="nubes z-30"></div>
+                {/* Contenedor de fondos animados */}
+                <div className="background-container">
+                    <div className="estrellas z-10"></div>
+                    <div className="difuminado z-20"></div>
+                    <div className="nubes z-30"></div>
+                    <div className="nubes z-30"></div>
+                </div>
                 {/* Contenido principal con los elementos children */}
                 <main className="relative z-40">{children}</main>
             </body>
