@@ -1,14 +1,27 @@
 {
-    "name": "Tarot online",
-    "short_name": "Explora el misterio del tarot.",
-    "theme_color": "#2196f3",
-    "background_color": "#2196f3",
+    "theme_color": "#8936FF",
+    "background_color": "#2EC6FE",
+    "icons": [
+        {
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "/img/icon512_maskable.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "any",
+            "sizes": "512x512",
+            "src": "/img/icon512_rounded.png",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "portrait",
     "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
-    "icons": {
-        "src": "/img/rueda.png",
-        "sizes": "any",
-        "type": "image/png"
-    }
+    "dir": "auto",
+    "lang": "es",
+    "name": "Lectura del Tarot",
+    "short_name": "Tarot",
+    "start_url": "https://lecturatarot.vercel.app/",
+    "scope": "https://lecturatarot.vercel.app/",
+    "description": "Las cartas del tarot pueden revelar los misterios ocultos del universo y guiarte en tu camino"
 }
