@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Barlow } from "next/font/google"
 import "./globals.css"
 import { GoogleTagManager } from "@next/third-parties/google"
+import Script from "next/script"
 const inter = Barlow({ weight: "400", preload: false })
 
 export const metadata: Metadata = {
@@ -20,6 +21,17 @@ export const metadata: Metadata = {
         icon: "/img/rueda.png",
     },
     manifest: "manifest.json",
+    openGraph: {
+        type: "website",
+        description: "Descubre el misterio del tarot y predice tu destino con la lectura y selección única de cartas.",
+        images: ["/img/rueda.png"],
+        siteName: "Tarot gratis online",
+        title: "Lectura de cartas gratis",
+        url: "https://lecturatarot.vercel.app/",
+    },
+    alternates: {
+        canonical: "https://lecturatarot.vercel.app/",
+    },
 }
 
 export default function RootLayout({

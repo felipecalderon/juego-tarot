@@ -7,6 +7,9 @@ import { Metadata } from "next"
 export const metadata: Metadata = {
     title: "Selecciona las cartas",
     description: "Las cartas están ordenadas aleatoriamente para que una lectura apropiada, selecciona y obtén tu lectura.",
+    alternates: {
+        canonical: "https://lecturatarot.vercel.app/play/",
+    },
 }
 
 export default function PlayPage() {
