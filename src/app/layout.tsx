@@ -32,6 +32,9 @@ export const metadata: Metadata = {
     alternates: {
         canonical: "https://lecturatarot.vercel.app/",
     },
+    verification: {
+        google: "fH4Tl3AdAV3JG6zqj7CMXOgfkWWhWLuDGeTgrzs5a3o",
+    },
 }
 
 export default function RootLayout({
