@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Barlow } from "next/font/google"
 import "./globals.css"
-import { GoogleTagManager } from "@next/third-parties/google"
+import { GoogleTagManager, sendGAEvent } from "@next/third-parties/google"
 import Script from "next/script"
 const inter = Barlow({ weight: "400", preload: false })
 
@@ -42,10 +42,15 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
+    sendGAEvent({ event: "Pageview", pageTitle: "Tarot online" })
     return (
         <html lang="es">
             <body className={inter.className}>
                 <GoogleTagManager gtmId="AW-328593452" />
+                <Script>{`window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'AW-328593452');`}</Script>
                 {/* Contenedor de fondos animados */}
                 <div className="background-container">
                     <div className="estrellas z-10"></div>

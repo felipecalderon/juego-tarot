@@ -1,10 +1,11 @@
 "use client"
 import { Button } from "@nextui-org/react"
 import Link from "next/link"
-// https://buymeacoffee.com/felipecalderon
+import { sendGTMEvent } from "@next/third-parties/google"
 
 export default function DonationButton() {
     const clickButton = () => {
+        sendGTMEvent({ event: "clicDonation", value: "1" })
         if (window) {
             const isMobile = window.innerWidth <= 800 && window.innerHeight <= 600
             const width = isMobile ? window.innerWidth : 1100

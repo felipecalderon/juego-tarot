@@ -4,6 +4,7 @@ import { Button, DatePicker, DateValue, Input, Switch } from "@nextui-org/react"
 import { MouseEvent, TouchEvent, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { getLocalTimeZone, today } from "@internationalized/date"
+import { sendGTMEvent } from "@next/third-parties/google"
 
 type FormCuestionario = {
     name: string
@@ -106,6 +107,7 @@ export default function Cuestionario() {
 
     const handleSubmit = async (e: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>) => {
         e.preventDefault()
+        sendGTMEvent({ event: "clicPrincipalForm", value: "2" })
         if (!isFormValid()) return
         setLoading(true)
         const haJugadoHoy = verifyPlayedToday()
