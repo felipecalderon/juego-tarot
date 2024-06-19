@@ -4,7 +4,7 @@ import { Button, DatePicker, DateValue, Input, Switch } from "@nextui-org/react"
 import { MouseEvent, TouchEvent, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { getLocalTimeZone, today } from "@internationalized/date"
-import { sendGTMEvent } from "@next/third-parties/google"
+import { sendGAEvent, sendGTMEvent } from "@next/third-parties/google"
 
 type FormCuestionario = {
     name: string
@@ -131,6 +131,8 @@ export default function Cuestionario() {
     useEffect(() => {
         return () => setLoading(false)
     }, [])
+
+    sendGAEvent({ event: "Pageview", pageTitle: "Tarot online" })
 
     return (
         <form className="w-full flex flex-col gap-3 items-start">

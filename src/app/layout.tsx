@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Barlow } from "next/font/google"
 import "./globals.css"
-import { GoogleTagManager, sendGAEvent } from "@next/third-parties/google"
+import { GoogleTagManager } from "@next/third-parties/google"
 import Script from "next/script"
 const inter = Barlow({ weight: "400", preload: false })
 
@@ -42,7 +42,6 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
-    sendGAEvent({ event: "Pageview", pageTitle: "Tarot online" })
     return (
         <html lang="es">
             <body className={inter.className}>
