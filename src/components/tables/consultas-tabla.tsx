@@ -38,9 +38,9 @@ const Consultastabla = ({ consultas }: { consultas: Consulta[] }) => {
                 bottomContent={<Paginacion page={page} pages={pages} setPage={setPage} />}
             >
                 <TableHeader>
-                    <TableColumn>NAME</TableColumn>
-                    <TableColumn>ROLE</TableColumn>
-                    <TableColumn>STATUS</TableColumn>
+                    <TableColumn>NOMBRE</TableColumn>
+                    <TableColumn>NACIMIENTO</TableColumn>
+                    <TableColumn>PREGUNTA</TableColumn>
                 </TableHeader>
                 <TableBody>
                     {items.map((consulta) => (
