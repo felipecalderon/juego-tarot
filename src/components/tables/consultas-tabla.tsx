@@ -21,6 +21,11 @@ const Consultastabla = ({ consultas }: { consultas: Consulta[] }) => {
 
     const pages = Math.ceil(consultas.length / rowsPerPage)
 
+    const verConsulta = (consulta: string) => {
+        setOpen(true)
+        setConsulta(consulta)
+    }
+
     const items = useMemo(() => {
         const start = (page - 1) * rowsPerPage
         const end = start + rowsPerPage
@@ -44,14 +49,7 @@ const Consultastabla = ({ consultas }: { consultas: Consulta[] }) => {
                 </TableHeader>
                 <TableBody>
                     {items.map((consulta) => (
-                        <TableRow
-                            key={consulta.id}
-                            className="cursor-pointer"
-                            onClick={() => {
-                                setOpen(true)
-                                setConsulta(consulta.answer)
-                            }}
-                        >
+                        <TableRow key={consulta.id} className="cursor-pointer" onClick={() => verConsulta(consulta.answer)}>
                             <TableCell className="w-1/5">{consulta.name}</TableCell>
                             <TableCell className="w-1/5">{consulta.born}</TableCell>
                             <TableCell>{consulta.question}</TableCell>
