@@ -51,7 +51,7 @@ export default function CartaComponent({
                     <Image
                         alt="Carta reverso"
                         className={`object-cover h-[300px] w-full`}
-                        src="/img/fondo-carta.jpg"
+                        src="https://res.cloudinary.com/duwncbe8p/image/upload/v1719191439/tarot/wwkffrjcujk2dxvllbbr.jpg"
                     />
                 </Card>
                 <Card

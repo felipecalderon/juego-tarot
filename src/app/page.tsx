@@ -29,7 +29,7 @@ export default function Home() {
                 </div>
             </div>
             <Image
-                src="/img/rueda.png"
+                src="https://res.cloudinary.com/duwncbe8p/image/upload/v1719191441/tarot/s03ka73qprq9afrdng3l.png"
                 className="animate-spin-ultraslow fixed pointer-events-none -bottom-72 md:-bottom-96 z-10 right-0"
                 alt="Imagen animada de una rueda giratoria, simbolizando la ruleta de la suerte en el juego de tarot"
             />

@@ -5,6 +5,7 @@
 body {
     background-color: #000022;
 }
+
 @keyframes desplazar-difuminado {
     from {
         background-position: 0 0;
@@ -85,12 +86,13 @@ body {
 }
 
 .estrellas {
-    background: #000 url(/img/estrellas.png) repeat top center;
+    background: #000 url(https://res.cloudinary.com/duwncbe8p/image/upload/v1719191439/tarot/dugxhw1s3sp2favmp51x.png) repeat top center;
     background-attachment: fixed;
 }
 
 .difuminado {
-    background: transparent url(/img/circulo.svg) repeat top center;
+    background: transparent url(https://res.cloudinary.com/duwncbe8p/image/upload/v1719191439/tarot/exzbst1e9mdpja1urrqn.svg) repeat top
+        center;
     background-attachment: fixed;
     -moz-animation: desplazar-difuminado 200s linear infinite;
     -ms-animation: desplazar-difuminado 200s linear infinite;
@@ -100,7 +102,8 @@ body {
 }
 
 .nubes {
-    background: transparent url(/img/nubes.png) repeat-x top center;
+    background: transparent url(https://res.cloudinary.com/duwncbe8p/image/upload/v1719191439/tarot/xhdn7snslsqutzmpq22m.png) repeat-x top
+        center;
     background-attachment: fixed;
     -moz-animation: desplazar-nubes 200s linear infinite;
     -ms-animation: desplazar-nubes 200s linear infinite;
