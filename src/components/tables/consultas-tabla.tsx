@@ -3,6 +3,8 @@ import { Carta } from "@/lib/interfaces"
 import { Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react"
 import React, { useMemo, useState } from "react"
 import ModalTarot from "../modal"
+import { calcularEdad } from "@/lib/calcularEdad"
+import { fixNombre } from "@/lib/fixNombre"
 
 interface Consulta {
     id: string
@@ -35,28 +37,26 @@ const Consultastabla = ({ consultas }: { consultas: Consulta[] }) => {
 
     return (
         <>
-            <Table
-                isStriped
-                aria-label="Tabla de consultas de usuarios publica"
-                selectionMode="single"
-                color="secondary"
-                bottomContent={<Paginacion page={page} pages={pages} setPage={setPage} />}
-            >
+            <Paginacion page={page} pages={pages} setPage={setPage} />
+            <Table isStriped aria-label="Tabla de consultas de usuarios publica" selectionMode="single" color="secondary">
                 <TableHeader>
                     <TableColumn>NOMBRE</TableColumn>
-                    <TableColumn>NACIMIENTO</TableColumn>
+                    <TableColumn>EDAD</TableColumn>
                     <TableColumn>PREGUNTA</TableColumn>
                 </TableHeader>
                 <TableBody>
                     {items.map((consulta) => (
                         <TableRow key={consulta.id} className="cursor-pointer" onClick={() => verConsulta(consulta.answer)}>
-                            <TableCell className="w-1/5">{consulta.name}</TableCell>
-                            <TableCell className="w-1/5">{consulta.born}</TableCell>
-                            <TableCell>{consulta.question}</TableCell>
+                            <TableCell className="w-1/5">{fixNombre(consulta.name)}</TableCell>
+                            <TableCell className="w-1/12">{calcularEdad(consulta.born)} años</TableCell>
+                            <TableCell className="whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs md:max-w-md">
+                                {consulta.question}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
+            <Paginacion page={page} pages={pages} setPage={setPage} />
             <ModalTarot isOpen={openModal} content={consulta} set={setOpen} />
         </>
     )
