@@ -3,7 +3,9 @@ import React from "react"
 const back_url = process.env.BACK_URL
 
 export default async function ConsultasPage() {
-    const fetchdata = await fetch(`${back_url}consultas`)
+    const fetchdata = await fetch(`${back_url}consultas`, {
+        cache: "no-store",
+    })
     const consultas = await fetchdata.json()
     return (
         <section className="min-h-screen px-6 py-3 md:px-24 md:py-10 flex flex-col gap-6">
