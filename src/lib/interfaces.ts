@@ -13,3 +13,12 @@ export interface CartaJugada extends Carta {
 export interface Juego {
     cartas: CartaJugada[] //array de cartas seleccionadas
 }
+
+export interface Consulta {
+    id: string
+    question: string
+    answer: string
+    name: string
+    born: string
+    cards: Carta[]
+}

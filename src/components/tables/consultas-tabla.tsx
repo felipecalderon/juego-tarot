@@ -1,19 +1,10 @@
 "use client"
-import { Carta } from "@/lib/interfaces"
+import { Consulta } from "@/lib/interfaces"
 import { Input, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react"
-import React, { ChangeEvent, useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import ModalTarot from "../modal"
 import { calcularEdad } from "@/lib/calcularEdad"
 import { fixNombre } from "@/lib/fixNombre"
-
-interface Consulta {
-    id: string
-    question: string
-    answer: string
-    name: string
-    born: string
-    cards: Carta[]
-}
 
 const Consultastabla = ({ consultas }: { consultas: Consulta[] }) => {
     const [page, setPage] = useState(1)
