@@ -25,7 +25,7 @@ export default function ConsultasTop({ consultas }: { consultas: Consulta[] }) {
                 })
             }
         }, [] as Tops[])
-        setTops(top.filter((q) => q.consultas > 3).sort((a, s) => s.consultas - a.consultas))
+        setTops(top.filter((q) => q.consultas > 10).sort((a, s) => s.consultas - a.consultas))
     }, [])
 
     return (
