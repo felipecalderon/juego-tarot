@@ -1,20 +1,29 @@
 "use client"
-import { Consulta } from "@/lib/interfaces"
+import { Carta, Consulta } from "@/lib/interfaces"
 import { Input, Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react"
 import React, { useEffect, useMemo, useState } from "react"
 import ModalTarot from "../modal"
 import { calcularEdad } from "@/lib/calcularEdad"
 import { fixNombre } from "@/lib/fixNombre"
+import { consultaStore } from "@/stores/consultasStore"
 
-const Consultastabla = ({ consultas }: { consultas: Consulta[] }) => {
-    const [page, setPage] = useState(1)
+interface RespBack {
+    page: number
+    pageSize: number
+    total: number
+    tops: {
+        name: string
+        count: number
+    }[]
+    data: Consulta[]
+}
+const Consultastabla = ({ consultas }: { consultas: RespBack }) => {
+    const { data, page, pageSize, total, setData, setPage, setSize, setTotal } = consultaStore()
     const [openModal, setOpen] = useState(false)
     const [consulta, setConsulta] = useState("")
-    const [items, setItems] = useState<Consulta[]>([])
     const [searchTerm, setSearchTerm] = useState("")
-    const rowsPerPage = 15
 
-    const pages = useMemo(() => Math.ceil(consultas.length / rowsPerPage), [consultas, rowsPerPage])
+    const pages = useMemo(() => Math.ceil(total / pageSize), [consultas, pageSize])
 
     const verConsulta = (consulta: string) => {
         setOpen(true)
@@ -28,15 +37,16 @@ const Consultastabla = ({ consultas }: { consultas: Consulta[] }) => {
     const normalizedSearchTerm = useMemo(() => normalizeString(searchTerm.toLowerCase()), [searchTerm])
 
     const consultasFiltradas = useMemo(
-        () => consultas.filter((c) => normalizeString(c.name.toLowerCase()).includes(normalizedSearchTerm)),
-        [consultas, normalizedSearchTerm]
+        () => data.filter((c) => normalizeString(c.name.toLowerCase()).includes(normalizedSearchTerm)),
+        [data, normalizedSearchTerm]
     )
 
     useEffect(() => {
-        const start = (page - 1) * rowsPerPage
-        const end = start + rowsPerPage
-        setItems(consultasFiltradas.slice(start, end))
-    }, [page, consultasFiltradas])
+        setData(consultas.data)
+        setSize(consultas.pageSize)
+        setPage(consultas.page)
+        setTotal(consultas.total)
+    }, [])
     return (
         <>
             <Paginacion page={page} pages={pages} setPage={setPage} />
@@ -54,7 +64,7 @@ const Consultastabla = ({ consultas }: { consultas: Consulta[] }) => {
                     <TableColumn>PREGUNTA</TableColumn>
                 </TableHeader>
                 <TableBody>
-                    {items.map((consulta) => (
+                    {consultasFiltradas.map((consulta) => (
                         <TableRow key={consulta.id} className="cursor-pointer" onClick={() => verConsulta(consulta.answer)}>
                             <TableCell className="w-1/5">{fixNombre(consulta.name)}</TableCell>
                             <TableCell className="w-1/12">
@@ -75,7 +85,20 @@ const Consultastabla = ({ consultas }: { consultas: Consulta[] }) => {
 
 export default Consultastabla
 
-const Paginacion = ({ page, pages, setPage }: { page: number; pages: number; setPage: React.Dispatch<React.SetStateAction<number>> }) => {
+const Paginacion = ({ page, pages, setPage }: { page: number; pages: number; setPage: (page: number) => void }) => {
+    const { pageSize, setData } = consultaStore()
+    const back_url = process.env.NEXT_PUBLIC_BACK_URL
+    const getData = async () => {
+        const res = await fetch(`${back_url}consultas?page=${page}&pageSize=${pageSize}`)
+        if (res.ok) {
+            const { data }: RespBack = await res.json()
+            setData(data)
+        }
+    }
+
+    useEffect(() => {
+        getData()
+    }, [page])
     return (
         <div className="flex w-full justify-center">
             <Pagination isCompact showControls showShadow color="secondary" page={page} total={pages} onChange={(page) => setPage(page)} />

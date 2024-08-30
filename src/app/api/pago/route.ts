@@ -68,44 +68,75 @@ export const GET = async (req: NextRequest) => {
 }
 
 export const POST = async (req: NextRequest) => {
-    const { orderId } = await req.json()
-    const statusPayment = await capturePayment(orderId)
-    if (statusPayment.status) {
-        return NextResponse.json({ PAGADO: true, data: statusPayment })
+    try {
+        const { orderId } = await req.json()
+
+        if (!orderId || typeof orderId !== "string") {
+            return NextResponse.json({ error: "Invalid orderId" }, { status: 400 })
+        }
+
+        const statusPayment = await capturePayment(orderId)
+
+        if (statusPayment.status === "COMPLETED") {
+            // Aquí podrías agregar lógica para guardar la transacción en tu base de datos
+            return NextResponse.json({ paid: true, data: statusPayment })
+        } else if (statusPayment.status === "APPROVED") {
+            return NextResponse.json({ paid: false, status: "APPROVED", message: "Payment approved but not captured" })
+        } else {
+            return NextResponse.json({ paid: false, status: statusPayment.status, message: "Payment not completed" })
+        }
+    } catch (error) {
+        console.error("Error processing payment:", error)
+        return NextResponse.json({ error: "An error occurred while processing the payment" }, { status: 500 })
     }
-    return NextResponse.json({ PAGADO: false, data: statusPayment })
 }
 
-const capturePayment = async (orderId: string) => {
+const capturePayment = async (orderId: string): Promise<{ status: string; details?: any }> => {
     const accessToken = await generateAccessToken()
     const url = `${base}/v2/checkout/orders/${orderId}`
 
-    // Verificar el estado de la orden
-    const orderResponse = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-        },
-    })
+    try {
+        const orderResponse = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+        if (!orderResponse.ok) {
+            throw new Error(`HTTP error! status: ${orderResponse.status}`)
+        }
 
-    const orderData = await orderResponse.json()
-    if (orderData.status === "COMPLETED") {
-        return { status: "COMPLETED" }
+        const orderData = await orderResponse.json()
+
+        if (orderData.status === "COMPLETED") {
+            return { status: "COMPLETED", details: orderData }
+        }
+
+        if (orderData.status !== "APPROVED") {
+            return { status: orderData.status, details: orderData }
+        }
+
+        // Intenta capturar el pago solo si está en estado APPROVED
+        const captureUrl = `${url}/capture`
+        const captureResponse = await fetch(captureUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+
+        if (!captureResponse.ok) {
+            throw new Error(`HTTP error! status: ${captureResponse.status}`)
+        }
+
+        const captureData = await captureResponse.json()
+        return { status: captureData.status, details: captureData }
+    } catch (error) {
+        console.error("Error in capturePayment:", error)
+        throw error
     }
-
-    // Capturar el pago
-    const captureUrl = `${base}/v2/checkout/orders/${orderId}/capture`
-    const response = await fetch(captureUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-        },
-    })
-
-    const jsonResponse: StatusPayment = await response.json()
-    return jsonResponse
 }
 
 const generateAccessToken = async () => {
