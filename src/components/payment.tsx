@@ -3,7 +3,7 @@ import { usePaymentStore } from "@/stores/paymentStore"
 import Link from "next/link"
 import { useEffect } from "react"
 // En tu componente
-export default function PaymentComponent() {
+export default function PaymentComponent({ onSuccess }: { onSuccess: () => void }) {
     const {
         paymentLink,
         captureDetails,
@@ -38,6 +38,9 @@ export default function PaymentComponent() {
                 setCaptureDetails(data.data.details)
                 setUserDetails(data.data.details.payer)
                 setPaymentStatus(data.data.status)
+                onSuccess()
+            } else {
+                console.error("Payment not completed:", data.message)
             }
         }
     }

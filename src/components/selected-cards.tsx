@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation"
 import SingleCardSelected from "./selected-card"
 import { Toaster, toast } from "sonner"
 import useSocket from "@/hooks/socketClient"
+import PaymentComponent from "./payment"
 
 export default function SelectedCards() {
     const { socket } = useSocket("https://tarot-back-production.up.railway.app")
@@ -96,16 +97,7 @@ export default function SelectedCards() {
                         </div>
                         {completed && (
                             <div className="fixed bottom-6 right-2 md:right-6 z-50">
-                                <Button
-                                    color="secondary"
-                                    isLoading={isLoading}
-                                    disabled={isLoading}
-                                    size="lg"
-                                    onClick={handleAnalizar}
-                                >
-                                    {isLoading ? "Interpretando las cartas.. paciencia" : "Obtener lectura del tarot"}
-                                    <MdOutlineDoubleArrow />
-                                </Button>
+                                <PaymentComponent onSuccess={handleAnalizar} />
                             </div>
                         )}
                     </>
